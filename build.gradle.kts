@@ -18,6 +18,7 @@ dependencies {
 
     // Optional: If you need JSON support explicitly (RestAssured includes it, but adding for clarity)
     testImplementation("org.json:json:20230227")
+    implementation(files("src/main/resources/guessnumber.jar"))
 
 }
 
