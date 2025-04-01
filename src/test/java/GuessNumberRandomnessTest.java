@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +23,12 @@ public class GuessNumberRandomnessTest {
 
     // Run the function 30,000 times
     int totalRuns = 30000;
+
     for (int i = 0; i < totalRuns; i++) {
+
+      String input = "50\n60\n70\n80\n90\n";
+      ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+      System.setIn(in);
       int result = GuessNumber.guessingNumberGame(rnd);
       frequencyMap.put(result, frequencyMap.get(result) + 1);
     }
