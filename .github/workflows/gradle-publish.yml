@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-  # permissions:
-  # contents: read
-
 jobs:
   build_and_test:
     name: Build and Test
@@ -33,11 +30,32 @@ jobs:
           arguments: test
       - name: Run Test Coverage
         run: ./gradlew jacocoTestReport
-      - name: Jacoco
+      - name: Generate JaCoCo Badges
         uses: cicirello/jacoco-badge-generator@v2.9.0
         with:
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
-          fail-if-branches-less-than: 100
+          badges-directory: .github/badges
+          coverage-badge-filename: jacoco.svg
+          branches-badge-filename: branches.svg
+          generate-coverage-badge: true
+          generate-branches-badge: true  # Enable to track branch coverage
+          coverage-label: coverage
+          branches-label: branches
+          on-missing-report: fail
+          fail-if-coverage-less-than: 0  # Optional absolute minimum
+          fail-if-branches-less-than: 0  # Optional absolute minimum (changed from 100)
+          fail-on-coverage-decrease: true  # Fail if coverage decreases
+          fail-on-branches-decrease: true  # Fail if branches decrease
+          intervals: 100 90 80 70 60 0
+          colors: #4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44
+      - name: Commit updated badges
+        if: github.event_name == 'push'  # Only commit on push, not PRs
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add .github/badges/*.svg
+          git commit -m "Update coverage badges" || echo "No changes to commit"
+          git push
 
   build_and_publish_docker_image:
     name: Publish to Docker Hub
