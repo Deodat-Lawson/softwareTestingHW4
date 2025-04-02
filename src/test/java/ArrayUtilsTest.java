@@ -47,4 +47,67 @@ public class ArrayUtilsTest {
   public void testOddOrPositiveBothPositivesAndNegatives() {
     assertEquals(3, ArrayUtils.oddOrPos(new int[]{-3, -2, 0, 1, 4}));
   }
+
+  // Test when the array is empty.
+  @Test
+  public void testEmptyArray() {
+    int[] arr = {};
+    int target = 5;
+    assertEquals(0, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test when there are no occurrences of the target in the array.
+  @Test
+  public void testNoOccurrence() {
+    int[] arr = {1, 2, 3, 4};
+    int target = 5;
+    assertEquals(0, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test when all elements in the array match the target.
+  @Test
+  public void testAllOccurrence() {
+    int[] arr = {5, 5, 5};
+    int target = 5;
+    assertEquals(3, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test a mix of matching and non-matching elements.
+  @Test
+  public void testMixedOccurrence() {
+    int[] arr = {5, 2, 5, 3, 4, 5, 6};
+    int target = 5;
+    assertEquals(3, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test a single element array where the element matches the target.
+  @Test
+  public void testSingleElementMatch() {
+    int[] arr = {5};
+    int target = 5;
+    assertEquals(1, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test a single element array where the element does not match the target.
+  @Test
+  public void testSingleElementNoMatch() {
+    int[] arr = {7};
+    int target = 5;
+    assertEquals(0, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test with negative numbers.
+  @Test
+  public void testNegativeNumbers() {
+    int[] arr = {-5, -5, 0, -5};
+    int target = -5;
+    assertEquals(3, ArrayUtils.countOf(arr, target));
+  }
+
+  // Test that a null array throws a NullPointerException.
+  @Test
+  public void testNullArrayThrowsException() {
+    int target = 5;
+    assertThrows(NullPointerException.class, () -> ArrayUtils.countOf(null, target));
+  }
 }
