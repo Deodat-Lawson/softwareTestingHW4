@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: write  # Grant write access to repository contents
+
 jobs:
   build_and_test:
     name: Build and Test
@@ -38,14 +41,14 @@ jobs:
           coverage-badge-filename: jacoco.svg
           branches-badge-filename: branches.svg
           generate-coverage-badge: true
-          generate-branches-badge: true  # Enable to track branch coverage
+          generate-branches-badge: true
           coverage-label: coverage
           branches-label: branches
           on-missing-report: fail
-          fail-if-coverage-less-than: 0  # Optional absolute minimum
-          fail-if-branches-less-than: 0  # Optional absolute minimum (changed from 100)
-          fail-on-coverage-decrease: true  # Fail if coverage decreases
-          fail-on-branches-decrease: true  # Fail if branches decrease
+          fail-if-coverage-less-than: 0
+          fail-if-branches-less-than: 0
+          fail-on-coverage-decrease: true
+          fail-on-branches-decrease: true
           intervals: 100 90 80 70 60 0
           colors: #4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44
       - name: Commit updated badges
