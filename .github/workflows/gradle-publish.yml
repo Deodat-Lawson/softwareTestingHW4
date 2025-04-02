@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 permissions:
-  contents: write  # Grant write access to repository contents
+  contents: write  # For committing badges
 
 jobs:
   build_and_test:
@@ -52,7 +52,7 @@ jobs:
           intervals: 100 90 80 70 60 0
           colors: #4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44
       - name: Commit updated badges
-        if: github.event_name == 'push'  # Only commit on push, not PRs
+        if: github.event_name == 'push'
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Build Container image
         run: docker build -t ${{ secrets.DOCKER_REPO }}:latest .
       - name: Publish Docker image
